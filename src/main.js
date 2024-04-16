@@ -13,12 +13,12 @@ form.addEventListener('submit', handleSubmit);
 
 // надсилання запиту - цю функцію робила за зразком Дмитра Кисліціна
 function requestPixabay(quest) {
-  const BASE_URL = 'https://pixabay.com/api/';
-  const API_KEY = '6410346f89264d6e919165208231505';
+  const BASE_URL = 'https://pixabay.com/api';
+  const API_KEY = '43059810-21766dfeafea29ca9c24ae0e2';
 
   const params = new URLSearchParams({
     key: API_KEY,
-    q: names,
+    q: quest,
     image_type: `photo`,
     orientation: `horizontal`,
     safesearch: true,
@@ -34,8 +34,8 @@ function requestPixabay(quest) {
 }
 //  цей блок зробила по аналогії з попередніми д/з, але вибір не відбувається,
 // нічого не відображається
-function createMarkup(names) {
-  return names
+function createMarkup(arr) {
+  return arr
     .map(
       ({
         webformatURL,
@@ -63,7 +63,6 @@ function createMarkup(names) {
     )
     .join('');
 }
-gallery.insertAdjacentHTML('beforeend', createMarkup());
 
 const lightbox = new SimpleLightbox('.gallery a', {
   captionDelay: 250,
@@ -75,26 +74,38 @@ const lightbox = new SimpleLightbox('.gallery a', {
 //  умову перевірки та розташувати всі умови поки що не розумію
 function handleSubmit(event) {
   event.preventDefault();
+  loader.style.opacity = 1;
   gallery.innerHTML = '';
-  loader.stule.opacity = 1; // не спрацьовує
 
-  const names = event.currentTarget.elements;
+  const list = event.currentTarget.elements.value;
 
-  requestPixabay(names)
+  if (list === '') {
+    iziToast.show({
+      message: 'Please search for something',
+      position: 'topRight',
+      color: 'orang',
+    });
+    loader.style.opacity = 0;
+    return;
+  }
+
+  requestPixabay(list)
     .then(data => {
-      if (data.names === '') {
+      if (!data.hits.length) {
+        iziToast.show({
+          message: `❌ "Sorry, there are no images matching your search query. Please try again!"`,
+          position: 'topRight',
+          color: 'red',
+        });
+
+        return;
       }
+
+      gallery.innerHTML = createMarkup(data.hits);
     })
-    .catch(error => {
-      iziToast.show({
-        message: `❌ "Sorry, there are no images matching your search query. Please try again!"`,
-        position: 'topRight',
-        color: 'red',
-        messageColor: 'with',
-        messageSize: 12,
-      });
-    })
+    .catch(error => alert(error))
     .finally(() => {
       form.reset();
+      loader.style.opacity = 0;
     });
 }
