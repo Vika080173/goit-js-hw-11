@@ -11,9 +11,8 @@ const loader = document.querySelector('.loader');
 
 form.addEventListener('submit', handleSubmit);
 
-// надсилання запиту - цю функцію робила за зразком Дмитра Кисліціна
 function requestPixabay(quest) {
-  const BASE_URL = 'https://pixabay.com/api';
+  const BASE_URL = 'https://pixabay.com/api/';
   const API_KEY = '43059810-21766dfeafea29ca9c24ae0e2';
 
   const params = new URLSearchParams({
@@ -24,7 +23,6 @@ function requestPixabay(quest) {
     safesearch: true,
   });
   const url = `${BASE_URL}?${params}`;
-
   return fetch(url).then(response => {
     if (!response.ok) {
       throw new Error(response.status);
@@ -32,8 +30,7 @@ function requestPixabay(quest) {
     return response.json();
   });
 }
-//  цей блок зробила по аналогії з попередніми д/з, але вибір не відбувається,
-// нічого не відображається
+
 function createMarkup(arr) {
   return arr
     .map(
@@ -70,14 +67,12 @@ const lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
 });
 
-// це - біда, ліпила все, що бачила в завданні, але як сформувати
-//  умову перевірки та розташувати всі умови поки що не розумію
 function handleSubmit(event) {
   event.preventDefault();
   loader.style.opacity = 1;
   gallery.innerHTML = '';
 
-  const list = event.currentTarget.elements.value;
+  const list = event.currentTarget.elements.searchImg.value;
 
   if (list === '') {
     iziToast.show({
@@ -102,8 +97,16 @@ function handleSubmit(event) {
       }
 
       gallery.innerHTML = createMarkup(data.hits);
+      lightbox.refresh();
     })
-    .catch(error => alert(error))
+    .catch(error => {
+      iziToast.show({
+        message: `ERROR`,
+        position: 'topRight',
+        color: 'red',
+      });
+    })
+
     .finally(() => {
       form.reset();
       loader.style.opacity = 0;

@@ -41,29 +41,45 @@ input::placeholder {
   opacity: 0px;
   background-color: #4e75ff;
   color: #fff;
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0.04em;
+  color: #fff;
+  border-color: inherit;
   cursor: pointer;
 }
 .btn:hover {
   background-color: #6c8cff;
 }
 /* Gallery */
-
+.container {
+}
 .gallery {
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
   justify-content: center;
-  max-width: 1128px;
-  padding-top: 32px;
+
+  /* padding-top: 32px; */
   margin: 0 auto;
+}
+.gallery-item {
+  width: 360px;
+  height: 200px;
+  border: 1px solid #2e2f42;
+  transition: 0.5s;
 }
 .gallery-image {
   width: 360px;
-  height: 200px;
+  height: 152px;
 }
-.gallery-item {
-  height: 200px;
-  transition: 0.5s;
+.image-text {
+  display: flex;
+  gap: 12px;
+  padding-left: 20px;
+  padding-top: 4px;
 }
 /* Loader */
 
