@@ -4,68 +4,13 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { requestPixabay } from './js/pixabay-api';
 import { createMarkup } from './js/render-functions';
+import { gallery } from './js/render-functions';
+import { lightbox } from './js/render-functions';
 
 const form = document.querySelector('.form');
-const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 
 form.addEventListener('submit', handleSubmit);
-
-// function requestPixabay(quest) {
-//   const BASE_URL = 'https://pixabay.com/api/';
-//   const API_KEY = '43059810-21766dfeafea29ca9c24ae0e2';
-
-//   const params = new URLSearchParams({
-//     key: API_KEY,
-//     q: quest,
-//     image_type: `photo`,
-//     orientation: `horizontal`,
-//     safesearch: true,
-//   });
-//   const url = `${BASE_URL}?${params}`;
-//   return fetch(url).then(response => {
-//     if (!response.ok) {
-//       throw new Error(response.status);
-//     }
-//     return response.json();
-//   });
-// }
-
-// function createMarkup(arr) {
-//   return arr
-//     .map(
-//       ({
-//         webformatURL,
-//         largeImageURL,
-//         tags,
-//         likes,
-//         views,
-//         comments,
-//         downloads,
-//       }) => `
-//         <li class="gallery-item">
-//         <a class="gallery-link" href="${largeImageURL}">
-//         <img
-//         class="gallery-image"
-//         src="${webformatURL}"
-//         alt="${tags}"/>
-//         </a>
-//         <div class="image-text">
-//         <p>Likes: ${likes}</p>
-//         <p>Views: ${views}</p>
-//         <p>Comments: ${comments}</p>
-//         <p>Downloads: ${downloads}</p>
-//         </div>
-//         </li>`
-//     )
-//     .join('');
-// }
-
-// const lightbox = new SimpleLightbox('.gallery a', {
-//   captionDelay: 250,
-//   captionPosition: 'bottom',
-//   captionsData: 'alt',
-// });
 
 function handleSubmit(event) {
   event.preventDefault();
@@ -93,7 +38,6 @@ function handleSubmit(event) {
           position: 'topRight',
           color: 'red',
         });
-
         return;
       }
 
