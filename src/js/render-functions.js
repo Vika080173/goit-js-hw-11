@@ -32,9 +32,8 @@ export function createMarkup(arr) {
     .join('');
 }
 
-const lightbox = new SimpleLightbox('.gallery a', {
+export const lightbox = new SimpleLightbox('.gallery a', {
   captionDelay: 250,
   captionPosition: 'bottom',
   captionsData: 'alt',
 });
-lightbox.refresh();
